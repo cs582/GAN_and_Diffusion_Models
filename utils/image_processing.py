@@ -67,10 +67,11 @@ def markov_chain_noice(img0, starting_beta, final_beta, T=1000):
         mu = (1-beta)**0.5
         sigma = beta
 
-        print(f"Noicing data {i+1} out of {T} with mean={mu} and var={sigma}...")
-
         curr_img, _ = noice_image(prev_img, mu=mu, sigma=sigma)
-        images.append(curr_img)
+
+        if i % (T//10) == 0:
+            print(f"Noicing data {np.round(100*i/T, 3)}% with mean={mu} and var={sigma}...")
+            images.append(curr_img)
         prev_img = curr_img
 
     return images
