@@ -28,7 +28,7 @@ def run():
     latent_vector_size = 10
 
     # Set device
-    device = "cuda:0" if torch.cuda.is_available() else "cpu"
+    device = torch.device("cuda:0") if torch.cuda.is_available() else torch.device("cpu")
 
     # Call model
     generator = MNISTGenerator(in_size=latent_vector_size, out_shape=(28,28)).to(device)
