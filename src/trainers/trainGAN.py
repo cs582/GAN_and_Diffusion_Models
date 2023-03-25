@@ -1,4 +1,5 @@
 import torch
+from tqdm import tqdm
 import numpy as np
 from src.utils.viz_tools import preview_images
 
@@ -13,7 +14,8 @@ def train(G, D, device, latent_vector_size, training_dataset, epochs, D_optimize
         LOSS_D = 0
         LOSS_G = 0
 
-        for i, (x, y) in enumerate(training_dataset):
+        #for i, (x, y) in enumerate(training_dataset):
+        for i, (x, y) in tqdm(enumerate(training_dataset), total=len(training_dataset)):
             x = x.to(device)
 
             # Calculate number of elements in batch size
