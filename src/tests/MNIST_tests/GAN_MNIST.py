@@ -32,6 +32,8 @@ def run():
     loss = {criterion}
     """
 
+    print(string_model)
+
     # Define transformations to apply to the data
     transform = transforms.Compose([
         transforms.ToTensor(), # Convert PIL image to PyTorch tensor
