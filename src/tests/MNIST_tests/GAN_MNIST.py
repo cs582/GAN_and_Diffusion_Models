@@ -12,6 +12,26 @@ def run():
     # Set device
     device = torch.device("cuda:0") if torch.cuda.is_available() else torch.device("cpu")
 
+    # Set batch size
+    batch_size = 64
+
+    # Set number of epochs
+    epochs = 100
+
+    # Set latent vector size
+    latent_vector_size = 10
+
+    # Define Loss function
+    criterion = nn.BCELoss().to(device)
+
+    string_model = f"""
+    DEVICE = {device}
+    batch_size = {batch_size}
+    epochs = {epochs}
+    latent_vector_size = {latent_vector_size}
+    loss = {criterion}
+    """
+
     # Define transformations to apply to the data
     transform = transforms.Compose([
         transforms.ToTensor(), # Convert PIL image to PyTorch tensor
@@ -22,20 +42,11 @@ def run():
     trainset = datasets.MNIST('~/.pytorch/MNIST_data/', train=True, download=True, transform=transform)
 
     # Create a DataLoader to iterate over the training set in batches
-    trainloader = torch.utils.data.DataLoader(trainset, batch_size=4, shuffle=True)
-
-    # Set number of epochs
-    epochs = 100
-
-    # Set latent vector size
-    latent_vector_size = 10
+    trainloader = torch.utils.data.DataLoader(trainset, batch_size=batch_size, shuffle=True)
 
     # Call model
     generator = MNISTGenerator(in_size=latent_vector_size, out_shape=(28,28)).to(device)
     discriminator = MicroCNN(in_channels=1, out_size=1).to(device)
-
-    # Define Loss function
-    criterion = nn.BCELoss().to(device)
 
     # Define your optimizer
     G_optimizer = torch.optim.SGD(generator.parameters(), lr=0.01)
