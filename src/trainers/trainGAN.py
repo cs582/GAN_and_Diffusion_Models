@@ -13,6 +13,8 @@ def train(G, D, device, latent_vector_size, training_dataset, epochs, D_optimize
         LOSS_G = 0
 
         for i, (x, y) in enumerate(training_dataset):
+            x = x.to(device)
+
             # Calculate number of elements in batch size
             batch_size = len(x)
 
@@ -50,7 +52,7 @@ def train(G, D, device, latent_vector_size, training_dataset, epochs, D_optimize
             D_optimizer.zero_grad()
 
             # Generate data
-            gen_data = G(z_noice)
+            gen_data = G(z_noice).to(device)
 
             # Classify data
             gen_data_labels = D(gen_data).to(device)

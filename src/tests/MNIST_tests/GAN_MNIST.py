@@ -9,10 +9,13 @@ from src.trainers.trainGAN import train
 
 
 def run():
+    # Set device
+    device = torch.device("cuda:0") if torch.cuda.is_available() else torch.device("cpu")
+
     # Define transformations to apply to the data
     transform = transforms.Compose([
         transforms.ToTensor(), # Convert PIL image to PyTorch tensor
-        transforms.Normalize((0.1307,), (0.3081,)) # Normalize the tensor with mean=0.5 and std=0.5
+        transforms.Normalize((0.1307,), (0.3081,)) # Normalize the tensor with mean=0.1307 and std=0.3081
     ])
 
     # Download the training set and apply the transformations
@@ -26,9 +29,6 @@ def run():
 
     # Set latent vector size
     latent_vector_size = 10
-
-    # Set device
-    device = torch.device("cuda:0") if torch.cuda.is_available() else torch.device("cpu")
 
     # Call model
     generator = MNISTGenerator(in_size=latent_vector_size, out_shape=(28,28)).to(device)
