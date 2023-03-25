@@ -27,7 +27,7 @@ def train(G, D, device, latent_vector_size, training_dataset, epochs, D_optimize
             G_optimizer.zero_grad()
 
             # Generate data
-            y_hat = D(G(z_noice)).unsqueeze(1)
+            y_hat = D(G(z_noice)).unsqueeze(1).to(device)
             y_true = torch.zeros_like(y_hat, dtype=torch.float32).to(device)
 
             # Calculate loss
@@ -53,8 +53,8 @@ def train(G, D, device, latent_vector_size, training_dataset, epochs, D_optimize
             gen_data = G(z_noice)
 
             # Classify data
-            gen_data_labels = D(gen_data)
-            true_data_labels = D(x)
+            gen_data_labels = D(gen_data).to(device)
+            true_data_labels = D(x).to(device)
 
             # Concatenate labels
             y_hat = torch.cat((true_data_labels, gen_data_labels), dim=0).unsqueeze(1).to(device)
