@@ -7,6 +7,7 @@ def train(G, D, device, latent_vector_size, training_dataset, epochs, D_optimize
     progress = []
 
     for epoch in range(epochs):
+        print(f"Training current epoch {epoch}...")
         G = G.train()
 
         LOSS_D = 0
