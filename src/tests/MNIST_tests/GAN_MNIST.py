@@ -16,7 +16,7 @@ def run():
     batch_size = 64
 
     # Set number of epochs
-    epochs = 100
+    epochs = 20
 
     # Set latent vector size
     latent_vector_size = 10
