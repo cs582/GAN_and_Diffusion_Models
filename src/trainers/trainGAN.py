@@ -2,7 +2,8 @@ import torch
 from tqdm import tqdm
 import numpy as np
 from src.utils.viz_tools import preview_gen_vs_real_images
-global real_images_preview
+
+real_images_preview = None
 
 
 def train(G, D, device, latent_vector_size, training_dataset, epochs, D_optimizer, G_optimizer, loss_function):
