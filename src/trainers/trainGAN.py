@@ -1,7 +1,7 @@
 import torch
 from tqdm import tqdm
 import numpy as np
-from src.utils.viz_tools import preview_images
+from src.utils.viz_tools import preview_gen_vs_real_images
 
 
 def train(G, D, device, latent_vector_size, training_dataset, epochs, D_optimizer, G_optimizer, loss_function):
@@ -90,7 +90,7 @@ def train(G, D, device, latent_vector_size, training_dataset, epochs, D_optimize
             generated_images = G(z_noice)
 
             # Preview Images
-            preview_images(generated_images, name=f"MNIST_GAN_{percnt}", folder="preview/MNIST_GAN")
+            preview_gen_vs_real_images(generated_images, vmin=0.0, vmax=1.0, name=f"MNIST_GAN_{percnt}", folder="preview/MNIST_GAN")
 
             progress.append(generated_images)
 

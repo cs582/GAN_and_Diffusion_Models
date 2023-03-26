@@ -55,13 +55,8 @@ def preview_noiced_images(imgs, num=1, vmin=0, vmax=255):
     return
 
 
-def preview_images(imgs, name=None, vmin=0, vmax=255, folder=None):
-    height = 10
-    width = height*len(imgs)
-
-    fig, ax = plt.subplots(1, len(imgs), figsize=(width, height))
-
-    for i, img in enumerate(imgs):
+def preview_helper(img, row, ax, vmin, vmax):
+    for i, img in enumerate(img):
         # Detach tensor from graph and move it to cpu
         img = img if img.device.type == "cpu" else img.cpu()
         img = img.detach().numpy()
@@ -69,10 +64,20 @@ def preview_images(imgs, name=None, vmin=0, vmax=255, folder=None):
         fxdimg = img.copy()
         if img.shape[0] == 3:
             fxdimg[:,:,0], fxdimg[:,:,2] = img[:,:,2], img[:,:,0]
-            ax[i].imshow(fxdimg, vmin=vmin, vmax=vmax)
+            ax[row, i].imshow(fxdimg, vmin=vmin, vmax=vmax)
         elif img.shape[0] == 1:
-            ax[i].imshow(fxdimg[0], vmin=vmin, vmax=vmax, cmap="Blues")
-        ax[i].axis('off')
+            ax[row, i].imshow(fxdimg[0], vmin=vmin, vmax=vmax, cmap="Blues")
+        ax[row, i].axis('off')
+
+
+def preview_gen_vs_real_images(gen, real, name=None, vmin=0, vmax=255, folder=None):
+    height = 10
+    width = height*len(gen)
+
+    fig, ax = plt.subplots(2, len(gen), figsize=(width, height))
+
+    preview_helper(gen, 0, ax, vmin=vmin, vmax=vmax)
+    preview_helper(real, 0, ax, vmin=vmin, vmax=vmax)
 
     plt.subplots_adjust(wspace=0)
 
