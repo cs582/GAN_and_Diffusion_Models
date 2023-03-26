@@ -13,10 +13,10 @@ class MNISTGenerator(nn.Module):
         super(MNISTGenerator, self).__init__()
         self.h, self.w = out_shape
 
-        self.linear1 = nn.Linear(in_size, 64)
-        self.linear2 = nn.Linear(64, 128)
-        self.linear3 = nn.Linear(128, 256)
-        self.linear4 = nn.Linear(256, out_shape[0]*out_shape[1])
+        self.linear1 = nn.Linear(in_size, 128)
+        self.linear2 = nn.Linear(128, 256)
+        self.linear3 = nn.Linear(256, 512)
+        self.linear4 = nn.Linear(512, out_shape[0]*out_shape[1])
 
         self.relu = nn.ReLU(inplace=True)
 
