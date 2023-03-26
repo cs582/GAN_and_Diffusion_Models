@@ -11,6 +11,8 @@ def train(G, D, device, latent_vector_size, training_dataset, epochs, D_optimize
     progress = []
 
     for epoch in range(epochs):
+        global real_images_preview
+
         print(f"Training current epoch {epoch}...")
         G = G.train()
 
@@ -18,8 +20,6 @@ def train(G, D, device, latent_vector_size, training_dataset, epochs, D_optimize
         LOSS_G = 0
 
         for i, (x, y) in tqdm(enumerate(training_dataset), total=len(training_dataset)):
-            global real_images_preview
-
             x = x.to(device)
 
             if i == 0:
@@ -86,7 +86,6 @@ def train(G, D, device, latent_vector_size, training_dataset, epochs, D_optimize
         #---------------------------------------------
 
         if (epoch+1) % (epochs//10) == 0:
-            global real_images_preview
 
             G = G.eval()
 
