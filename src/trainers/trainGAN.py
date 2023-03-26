@@ -93,7 +93,7 @@ def train(G, D, device, latent_vector_size, training_dataset, epochs, D_optimize
             real_images = real_images_preview[:n_images]
 
             # Preview Images
-            preview_gen_vs_real_images(generated_images, real_images, vmin=0.0, vmax=1.0, name=f"MNIST_GAN_{percnt}", folder="preview/MNIST_GAN")
+            preview_gen_vs_real_images(generated_images, real_images, vmin=0.0, vmax=1.0, name=f"MNIST_GAN_epoch{epoch}", folder="preview/MNIST_GAN")
 
             progress.append(generated_images)
 
