@@ -1,5 +1,6 @@
 from src.utils.transformations import denormalize_image
 import matplotlib.pyplot as plt
+import os
 
 
 def preview_image(img, vmin=0, vmax=255, show_channels=True, normalized_image=False):
@@ -61,7 +62,10 @@ def preview_images(imgs, name=None, vmin=0, vmax=255, folder=None):
     fig, ax = plt.subplots(1, len(imgs), figsize=(width, height))
 
     for i, img in enumerate(imgs):
+        # Detach tensor from graph and move it to cpu
+        img = img if img.device.type == "cpu" else img.cpu()
         img = img.detach().numpy()
+
         fxdimg = img.copy()
         if img.shape[0] == 3:
             fxdimg[:,:,0], fxdimg[:,:,2] = img[:,:,2], img[:,:,0]
@@ -71,6 +75,9 @@ def preview_images(imgs, name=None, vmin=0, vmax=255, folder=None):
         ax[i].axis('off')
 
     plt.subplots_adjust(wspace=0)
+
+    if not os.path.exists(folder):
+        os.makedirs(folder)
 
     plt.savefig(f"{folder}/{name}.png")
 
