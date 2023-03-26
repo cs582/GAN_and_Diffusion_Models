@@ -2,9 +2,11 @@ import torch
 from tqdm import tqdm
 import numpy as np
 from src.utils.viz_tools import preview_gen_vs_real_images
+global real_images_preview
 
 
 def train(G, D, device, latent_vector_size, training_dataset, epochs, D_optimizer, G_optimizer, loss_function):
+
     progress = []
 
     for epoch in range(epochs):
@@ -14,9 +16,13 @@ def train(G, D, device, latent_vector_size, training_dataset, epochs, D_optimize
         LOSS_D = 0
         LOSS_G = 0
 
-        #for i, (x, y) in enumerate(training_dataset):
         for i, (x, y) in tqdm(enumerate(training_dataset), total=len(training_dataset)):
+            global real_images_preview
+
             x = x.to(device)
+
+            if i == 0:
+                real_images_preview = x
 
             # Calculate number of elements in batch size
             batch_size = len(x)
@@ -79,6 +85,8 @@ def train(G, D, device, latent_vector_size, training_dataset, epochs, D_optimize
         #---------------------------------------------
 
         if (epoch+1) % (epochs//10) == 0:
+            global real_images_preview
+
             G = G.eval()
 
             percnt = np.round(100*(epoch+1)/epochs, 3)
@@ -90,7 +98,7 @@ def train(G, D, device, latent_vector_size, training_dataset, epochs, D_optimize
             z_noice = torch.rand(n_images, latent_vector_size).to(device)
 
             generated_images = G(z_noice)
-            real_images = training_dataset[0][0][:n_images]
+            real_images = real_images_preview[:n_images]
 
             # Preview Images
             preview_gen_vs_real_images(generated_images, real_images, vmin=0.0, vmax=1.0, name=f"MNIST_GAN_{percnt}", folder="preview/MNIST_GAN")
