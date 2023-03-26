@@ -1,4 +1,4 @@
-from src.tests import MNIST_tests
+from src.tests.MNIST_tests import GAN_MNIST, DIFF_MNIST
 import argparse
 
 parser = argparse.ArgumentParser(
@@ -21,11 +21,11 @@ if __name__ == "__main__":
 
     if args.model == "GAN":
         if args.dataset == "MNIST":
-            MNIST_tests.GAN_MNIST.run(epochs=args.epochs, batch_size=args.batch_size, latent_vector_size=args.vector_size, lr=args.lr)
+            GAN_MNIST.run(epochs=args.epochs, batch_size=args.batch_size, latent_vector_size=args.vector_size, lr=args.lr)
 
     if args.model == "DIFF":
         if args.dataset == "MNIST":
-            MNIST_tests.DIFF_MNIST.run(batch_size=args.batch_size, latent_vector_size=args.vector_size, lr=args.lr)
+            DIFF_MNIST.run(batch_size=args.batch_size, latent_vector_size=args.vector_size, lr=args.lr)
 
 
 
