@@ -13,6 +13,9 @@ def run(batch_size, latent_vector_size, timesteps, lr):
     # Define Loss function
     criterion = nn.KLDivLoss().to(device)
 
+    # Beta range
+    beta_range = (0.02, 0.0001)
+
     string_model = f"""
     DEVICE = {device}
     timesteps = {timesteps}
@@ -42,4 +45,4 @@ def run(batch_size, latent_vector_size, timesteps, lr):
     # Define your optimizer
     optimizer = torch.optim.SGD(model.parameters(), lr=lr)
 
-    train(model, device=device, training_dataset=trainloader, optimizer=optimizer, loss_function=criterion)
+    train(model, device=device, training_dataset=trainloader, optimizer=optimizer, loss_function=criterion, times=timesteps, beta_range=beta_range)
