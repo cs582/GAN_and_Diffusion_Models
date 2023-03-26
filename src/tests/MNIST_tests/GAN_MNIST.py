@@ -29,7 +29,7 @@ def run(epochs, batch_size, latent_vector_size, lr):
     # Define transformations to apply to the data
     transform = transforms.Compose([
         transforms.ToTensor(), # Convert PIL image to PyTorch tensor
-        transforms.Normalize((0.1307,), (0.3081,)) # Normalize the tensor with mean=0.1307 and std=0.3081
+        transforms.Normalize((0.5,), (0.5,)) # Normalize the tensor with mean=0.5 and std=0.5
     ])
 
     # Download the training set and apply the transformations
