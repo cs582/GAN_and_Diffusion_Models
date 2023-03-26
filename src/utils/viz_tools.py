@@ -57,6 +57,8 @@ def preview_noiced_images(imgs, num=1, vmin=0, vmax=255):
 
 def preview_helper(img, row, ax, vmin, vmax):
     for i, img in enumerate(img):
+        if i == 0:
+            print(img.shape)
         # Detach tensor from graph and move it to cpu
         img = img if img.device.type == "cpu" else img.cpu()
         img = img.detach().numpy()
