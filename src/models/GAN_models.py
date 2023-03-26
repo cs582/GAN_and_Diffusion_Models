@@ -35,15 +35,15 @@ class MNISTGenerator(nn.Module):
         self.linear1 = nn.Linear(in_size, 128)
         self.linear2 = nn.Linear(128, 256)
         self.linear3 = nn.Linear(256, 512)
-        self.linear4 = nn.Linear(512, out_shape[0]*out_shape[1])
+        self.linear4 = nn.Linear(512, self.h*self.w)
 
-        self.relu = nn.ReLU(inplace=True)
+        self.activ = nn.LeakyReLU(0.2, inplace=True)
 
         self.tanh = nn.Tanh()
 
     def forward(self, x):
-        x = self.relu(self.linear1(x))
-        x = self.relu(self.linear2(x))
-        x = self.relu(self.linear3(x))
-        x = self.tanh(self.linear4(x))
+        x = self.activ(self.linear1(x))
+        x = self.activ(self.linear2(x))
+        x = self.activ(self.linear3(x))
+        x = self.tanh(self.activ(self.linear4(x)))
         return x.view(-1, 1, self.h, self.w)
