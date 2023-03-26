@@ -2,7 +2,7 @@ import unittest
 import torch
 from src.models.classifiers.CNNs import MicroCNN, MiniCNN
 from src.models.building_blocks import SimpleCNNBlock, MLP
-from src.models.generators.CNNs import MNISTGenerator
+from src.models.GAN_models import MNISTGenerator
 
 
 class TestBuildingBlocks(unittest.TestCase):

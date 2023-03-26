@@ -2,8 +2,7 @@ import torch
 import torch.nn as nn
 from torchvision import datasets, transforms
 
-from src.models.generators.CNNs import MNISTGenerator
-from src.models.classifiers.CNNs import MicroCNN
+from src.models.GAN_models import MNISTGenerator, MNISTDiscriminator
 
 from src.trainers.trainGAN import train
 
@@ -40,7 +39,7 @@ def run(epochs, batch_size, latent_vector_size, lr):
 
     # Call model
     generator = MNISTGenerator(in_size=latent_vector_size, out_shape=(28,28)).to(device)
-    discriminator = MicroCNN(in_channels=1, out_size=1).to(device)
+    discriminator = MNISTDiscriminator(img_size=(28,28)).to(device)
 
     # Define your optimizer
     G_optimizer = torch.optim.SGD(generator.parameters(), lr=lr)
