@@ -20,6 +20,7 @@ class MNISTDiscriminator(nn.Module):
         validity = self.model(img_flat)
         return validity
 
+
 class MNISTGenerator(nn.Module):
     def __init__(self, in_size, out_shape):
         super(MNISTGenerator, self).__init__()
@@ -44,7 +45,7 @@ class MNISTGenerator(nn.Module):
 
     def forward(self, z):
         img = self.model(z)
-        img = img.view(img.size(0), *self.out_shape)
+        img = img.view(img.size(0), 1, *self.out_shape)
         return img
 
 # class MNISTGenerator(nn.Module):
