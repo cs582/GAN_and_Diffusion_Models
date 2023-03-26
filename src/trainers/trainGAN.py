@@ -19,7 +19,7 @@ def train(G, D, device, latent_vector_size, training_dataset, epochs, D_optimize
         LOSS_D = 0
         LOSS_G = 0
 
-        for i, (x, y) in tqdm(enumerate(training_dataset), total=len(training_dataset)):
+        for i, (x, _) in tqdm(enumerate(training_dataset), total=len(training_dataset)):
             x = x.to(device)
 
             if i == 0:
@@ -63,7 +63,7 @@ def train(G, D, device, latent_vector_size, training_dataset, epochs, D_optimize
 
             # Classify data
             real_imgs_loss = loss_function(D(x).to(device), real_labels)
-            gen_imgs_loss = loss_function(D(gen_images).to(device), gen_labels)
+            gen_imgs_loss = loss_function(D(gen_images.detach()).to(device), gen_labels)
             loss_d = (real_imgs_loss + gen_imgs_loss)/2
 
             # Calculate loss
