@@ -39,7 +39,6 @@ def train(G, D, device, latent_vector_size, training_dataset, epochs, D_optimize
             G_optimizer.zero_grad()
 
             # Generate latent vector
-            #z_noice = torch.tensor(np.random.normal(0, 1, (batch_size, latent_vector_size)), dtype=torch.float32).to(device)
             z_noice = torch.randn(batch_size, latent_vector_size, dtype=torch.float32).to(device)
 
             # Generate images
@@ -83,7 +82,7 @@ def train(G, D, device, latent_vector_size, training_dataset, epochs, D_optimize
             percnt = np.round(100*(epoch+1)/epochs, 3)
             print(f"{percnt}% completed!")
 
-            n_images = 4
+            n_images = 10
 
             generated_images = generated_images_preview[:n_images]
             real_images = real_images_preview[:n_images]
