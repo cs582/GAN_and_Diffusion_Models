@@ -38,8 +38,8 @@ def run(epochs, batch_size, latent_vector_size, lr):
     trainloader = torch.utils.data.DataLoader(trainset, batch_size=batch_size, shuffle=True)
 
     # Call model
-    generator = MNISTGenerator(in_size=latent_vector_size, out_shape=(28,28)).to(device)
-    discriminator = MNISTDiscriminator(img_size=(28,28)).to(device)
+    generator = MNISTGenerator(in_size=latent_vector_size, out_shape=(28,28)).to(device).train()
+    discriminator = MNISTDiscriminator(img_size=(28,28)).to(device).train()
 
     # Define your optimizer
     G_optimizer = torch.optim.SGD(generator.parameters(), lr=lr)
