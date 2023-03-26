@@ -8,12 +8,9 @@ from src.models.classifiers.CNNs import MicroCNN
 from src.trainers.trainGAN import train
 
 
-def run(epochs, batch_size, lr):
+def run(epochs, batch_size, latent_vector_size, lr):
     # Set device
     device = torch.device("cuda:0") if torch.cuda.is_available() else torch.device("cpu")
-
-    # Set latent vector size
-    latent_vector_size = 10
 
     # Define Loss function
     criterion = nn.BCELoss().to(device)
@@ -22,6 +19,7 @@ def run(epochs, batch_size, lr):
     DEVICE = {device}
     batch_size = {batch_size}
     epochs = {epochs}
+    learning_rate = {lr}
     latent_vector_size = {latent_vector_size}
     loss = {criterion}
     """
