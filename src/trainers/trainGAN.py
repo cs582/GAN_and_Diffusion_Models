@@ -28,22 +28,25 @@ def train(G, D, device, latent_vector_size, training_dataset, epochs, D_optimize
             # Calculate number of elements in batch size
             batch_size = len(x)
 
+            # Ground truths
+            real_labels = torch.ones(batch_size, 1, dtype=torch.float32).to(device)
+            gen_labels = torch.zeros(batch_size, 1, dtype=torch.float32).to(device)
+
             ########################################
             ### GENERATOR OPTIMIZATION
             ########################################
 
-            # Generate latent vector
-            z_noice = torch.rand(batch_size, latent_vector_size).to(device)
-
             # Zero the parameter gradients
             G_optimizer.zero_grad()
 
-            # Generate data
-            y_hat = D(G(z_noice)).unsqueeze(1).to(device)
-            y_true = torch.zeros_like(y_hat, dtype=torch.float32).to(device)
+            # Generate latent vector
+            z_noice = torch.rand(batch_size, latent_vector_size).to(device)
+
+            # Generate images
+            gen_images = G(z_noice)
 
             # Calculate loss
-            loss_g = loss_function(y_hat, y_true)
+            loss_g = loss_function(D(gen_images), real_labels)
             LOSS_G += loss_g.item()
 
             # Backward pass and optimize
@@ -55,26 +58,15 @@ def train(G, D, device, latent_vector_size, training_dataset, epochs, D_optimize
             ### DISCRIMINATOR OPTIMIZATION
             ########################################
 
-            # Generate latent vector
-            z_noice = torch.rand(batch_size, latent_vector_size).to(device)
-
             # Zero the parameter gradients
             D_optimizer.zero_grad()
 
-            # Generate data
-            gen_data = G(z_noice).to(device)
-
             # Classify data
-            gen_data_labels = D(gen_data).to(device)
-            true_data_labels = D(x).to(device)
-
-            # Concatenate labels
-            y_hat = torch.cat((true_data_labels, gen_data_labels), dim=0).unsqueeze(1).to(device)
-            y_true = torch.zeros_like(y_hat, dtype=torch.float32).to(device)
-            y_true[:len(x)] = 1.0
+            real_imgs_loss = loss_function(D(x).to(device), real_labels)
+            gen_imgs_loss = loss_function(D(gen_images).to(device), gen_labels)
+            loss_d = (real_imgs_loss + gen_imgs_loss)/2
 
             # Calculate loss
-            loss_d = loss_function(y_hat, y_true)
             LOSS_D += loss_d.item()
 
             # Backward pass and optimize
