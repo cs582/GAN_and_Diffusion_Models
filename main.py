@@ -22,11 +22,11 @@ if __name__ == "__main__":
 
     if args.model == "GAN":
         if args.dataset == "MNIST":
-            MNIST_tests.GAN_MNIST.run(epochs=args.pochs, batch_size=args.batch_size, latent_vector_size=args.vector_size, lr=args.lr)
+            MNIST_tests.GAN_MNIST.run(epochs=args.epochs, batch_size=args.batch_size, latent_vector_size=args.vector_size, lr=args.lr)
 
     if args.model == "Diffusion":
         if args.dataset == "MNIST":
-            MNIST_tests.Diffusion_MNIST.run()
+            MNIST_tests.Diffusion_MNIST.run(batch_size=args.batch_size, latent_vector_size=args.vector_size, lr=args.lr)
 
 
 
