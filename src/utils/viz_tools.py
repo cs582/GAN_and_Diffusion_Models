@@ -79,7 +79,7 @@ def preview_gen_vs_real_images(gen, real, name=None, vmin=0, vmax=255, folder=No
     fig, ax = plt.subplots(2, len(gen), figsize=(width, height))
 
     preview_helper(gen, 0, ax, vmin=vmin, vmax=vmax)
-    preview_helper(real, 0, ax, vmin=vmin, vmax=vmax)
+    preview_helper(real, 1, ax, vmin=vmin, vmax=vmax)
 
     plt.subplots_adjust(wspace=0)
 
