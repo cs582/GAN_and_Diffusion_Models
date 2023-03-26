@@ -84,13 +84,16 @@ def train(G, D, device, latent_vector_size, training_dataset, epochs, D_optimize
             percnt = np.round(100*(epoch+1)/epochs, 3)
             print(f"{percnt}% completed!")
 
+            n_images = 4
+
             # Generate latent vector
-            z_noice = torch.rand(4, latent_vector_size).to(device)
+            z_noice = torch.rand(n_images, latent_vector_size).to(device)
 
             generated_images = G(z_noice)
+            real_images = training_dataset[0][0][:n_images]
 
             # Preview Images
-            preview_gen_vs_real_images(generated_images, vmin=0.0, vmax=1.0, name=f"MNIST_GAN_{percnt}", folder="preview/MNIST_GAN")
+            preview_gen_vs_real_images(generated_images, real_images, vmin=0.0, vmax=1.0, name=f"MNIST_GAN_{percnt}", folder="preview/MNIST_GAN")
 
             progress.append(generated_images)
 
