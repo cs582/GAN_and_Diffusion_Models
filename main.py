@@ -19,5 +19,5 @@ if __name__ == "__main__":
     lr = args.lr
     latent_vector_size = args.vector_size
 
-    run(epochs, batch_size, lr)
+    run(epochs, batch_size, lr, latent_vector_size)
 
