@@ -1,6 +1,6 @@
 import torch
 from torch import nn
-from src.models.building_blocks import SimpleCNNBlock, MLP, BinaryMLP
+from src.models.blocks import SimpleCNNBlock, MLP, BinaryMLP
 
 
 class MicroCNN(nn.Module):

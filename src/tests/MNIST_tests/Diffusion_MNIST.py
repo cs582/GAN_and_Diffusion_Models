@@ -2,22 +2,21 @@ import torch
 import torch.nn as nn
 from torchvision import datasets, transforms
 
-from src.models.GAN_models import MNISTGenerator, MNISTDiscriminator
+from src.utils.transformations import noice_dataset
+from src.models.Diffusion_models import MNISTDiffusion
+from src.trainers.trainDiffusion import train
 
-from src.trainers.trainGAN import train
 
-
-def run(epochs, batch_size, latent_vector_size, lr):
+def run(batch_size, latent_vector_size, lr):
     # Set device
     device = torch.device("cuda:0") if torch.cuda.is_available() else torch.device("cpu")
 
     # Define Loss function
-    criterion = nn.BCELoss().to(device)
+    criterion = nn.KLDivLoss().to(device)
 
     string_model = f"""
     DEVICE = {device}
     batch_size = {batch_size}
-    epochs = {epochs}
     learning_rate = {lr}
     latent_vector_size = {latent_vector_size}
     loss = {criterion}
@@ -35,14 +34,15 @@ def run(epochs, batch_size, latent_vector_size, lr):
     trainset = datasets.MNIST('~/.pytorch/MNIST_data/', train=True, download=True, transform=transform)
 
     # Create a DataLoader to iterate over the training set in batches
-    trainloader = torch.utils.data.DataLoader(trainset, batch_size=batch_size, shuffle=True)
+    pre_trainloader = torch.utils.data.DataLoader(trainset, batch_size=batch_size, shuffle=True)
+
+    # Noiced Images dataset
+    trainloader = torch.utils.data.DataLoader(noice_dataset(pre_trainloader), batch_size=batch_size, shuffle=True)
 
     # Call model
-    generator = MNISTGenerator(in_size=latent_vector_size, out_shape=(28,28)).to(device).train()
-    discriminator = MNISTDiscriminator(img_size=(28,28)).to(device).train()
+    model = MNISTDiffusion(img_size=(28,28))
 
     # Define your optimizer
-    G_optimizer = torch.optim.SGD(generator.parameters(), lr=lr)
-    D_optimizer = torch.optim.SGD(discriminator.parameters(), lr=lr)
+    optimizer = torch.optim.SGD(model.parameters(), lr=lr)
 
-    train(generator, discriminator, device=device, latent_vector_size=latent_vector_size, training_dataset=trainloader, epochs=epochs, D_optimizer=D_optimizer, G_optimizer=G_optimizer, loss_function=criterion)
+    train(model, device=device, training_dataset=trainloader, optimizer=optimizer, loss_function=criterion)

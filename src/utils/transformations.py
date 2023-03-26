@@ -1,5 +1,6 @@
 import numpy as np
 import cv2
+import torch
 
 
 def normalize_image(img):
@@ -27,20 +28,17 @@ def image_preprocessing(img):
     return normalize_image(crop_resize_img(img))
 
 
-def noice_image(img, mu, sigma, noice_type="mult"):
-    length = len(img.flatten())
+def noice_image(img, mu, sigma):
     size = img.shape
-    noice = np.random.normal(mu, sigma, length).reshape(size)
+    noice = np.random.normal(mu, sigma, np.prod(size)).reshape(size)
+    noice = torch.from_numpy(noice).to(img.device)
 
-    if noice_type == "add":
-        noiced_image = img + noice
-    elif noice_type == "mult":
-        noiced_image = img * noice
+    noiced_image = img * noice
 
     noiced_image[noiced_image > 1.0] = 1.0
     noiced_image[noiced_image < -1.0] = -1.0
 
-    return noiced_image, noice
+    return noiced_image
 
 
 def markov_chain_noice(img0, starting_beta, final_beta, T=1000):
