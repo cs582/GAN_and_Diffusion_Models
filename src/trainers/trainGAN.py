@@ -40,7 +40,7 @@ def train(G, D, device, latent_vector_size, training_dataset, epochs, D_optimize
             G_optimizer.zero_grad()
 
             # Generate latent vector
-            z_noice = torch.tensor(np.random.normal(0, 1, (batch_size, latent_vector_size))).to(device)
+            z_noice = torch.tensor(np.random.normal(0, 1, (batch_size, latent_vector_size)), dtype=torch.float32).to(device)
 
             # Generate images
             gen_images = G(z_noice)
