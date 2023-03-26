@@ -40,7 +40,7 @@ def run(batch_size, latent_vector_size, timesteps, lr):
     trainloader = torch.utils.data.DataLoader(trainset, batch_size=batch_size, shuffle=True)
 
     # Call model
-    model = MNISTDiffusion(img_size=(28,28), timesteps=timesteps)
+    model = MNISTDiffusion(img_size=(28,28), timesteps=timesteps).to(device)
 
     # Define your optimizer
     optimizer = torch.optim.SGD(model.parameters(), lr=lr)
