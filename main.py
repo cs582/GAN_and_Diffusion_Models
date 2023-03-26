@@ -17,7 +17,6 @@ parser.add_argument('-dataset', type=str, default="MNIST", help="Choose dataset.
 args = parser.parse_args()
 
 
-
 if __name__ == "__main__":
 
     if args.model == "GAN":
@@ -26,7 +25,7 @@ if __name__ == "__main__":
 
     if args.model == "Diffusion":
         if args.dataset == "MNIST":
-            MNIST_tests.Diffusion_MNIST.run(batch_size=args.batch_size, latent_vector_size=args.vector_size, lr=args.lr)
+            MNIST_tests.DIFF_MNIST.run(batch_size=args.batch_size, latent_vector_size=args.vector_size, lr=args.lr)
 
 
 
