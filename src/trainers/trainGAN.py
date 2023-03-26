@@ -73,6 +73,9 @@ def train(G, D, device, latent_vector_size, training_dataset, epochs, D_optimize
             loss_d.backward()
             D_optimizer.step()
 
+            # Print loss
+            print(f'Batch {i}: Loss G ={loss_g:.4f} Loss D ={loss_d:.4f}', end='\r')
+
         #---------------------------------------------
         # Print current progress
         #---------------------------------------------
