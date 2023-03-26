@@ -1,6 +1,6 @@
 import torch
 from torch import nn
-from src.models.building_blocks import SimpleCNNBlock, MLP
+from src.models.building_blocks import SimpleCNNBlock, MLP, BinaryMLP
 
 
 class MicroCNN(nn.Module):
@@ -32,7 +32,7 @@ class MiniCNN(nn.Module):
         self.block2 = SimpleCNNBlock(in_channels=8, kernel_size=5, padding=0, stride=2, out_channels=16)
         self.block3 = SimpleCNNBlock(in_channels=16, kernel_size=5, padding=0, stride=2, out_channels=32)
 
-        self.mlp = MLP(in_size=29*29*32, out_size=out_size)
+        self.mlp = BinaryMLP(in_size=29*29*32, out_size=out_size)
 
     def forward(self, x):
         x = self.block1(x)

@@ -13,6 +13,26 @@ class SimpleCNNBlock(nn.Module):
         return x
 
 
+class BinaryMLP(nn.Module):
+    def __init__(self, in_size, out_size):
+        super(BinaryMLP, self).__init__()
+        self.linear1 = nn.Linear(in_size, 256)
+        self.linear2 = nn.Linear(256, 128)
+        self.linear3 = nn.Linear(128, 64)
+        self.linear4 = nn.Linear(64, out_size)
+
+        self.relu = nn.ReLU(inplace=True)
+
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, x):
+        x = self.relu(self.linear1(x))
+        x = self.relu(self.linear2(x))
+        x = self.relu(self.linear3(x))
+        x = self.sigmoid(self.linear4(x))
+        return x
+
+
 class MLP(nn.Module):
     def __init__(self, in_size, out_size):
         super(MLP, self).__init__()
