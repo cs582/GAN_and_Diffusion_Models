@@ -26,13 +26,13 @@ class MicroCNN(nn.Module):
 
 
 class MiniCNN(nn.Module):
-    def __init__(self, in_channels, out_size):
+    def __init__(self, in_channels, out_size=1):
         super(MiniCNN, self).__init__()
         self.block1 = SimpleCNNBlock(in_channels=in_channels, kernel_size=5, padding=0, stride=2, out_channels=8)
         self.block2 = SimpleCNNBlock(in_channels=8, kernel_size=5, padding=0, stride=2, out_channels=16)
         self.block3 = SimpleCNNBlock(in_channels=16, kernel_size=5, padding=0, stride=2, out_channels=32)
 
-        self.mlp = BinaryMLP(in_size=29*29*32, out_size=out_size)
+        self.bin_mlp = BinaryMLP(in_size=29*29*32, out_size=out_size)
 
     def forward(self, x):
         x = self.block1(x)
@@ -41,5 +41,5 @@ class MiniCNN(nn.Module):
 
         x = torch.flatten(x, 1)
 
-        x = self.mlp(x)
+        x = self.bin_mlp(x)
         return x
