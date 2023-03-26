@@ -12,12 +12,12 @@ def train(model, device, training_dataset, optimizer, loss_function, times, beta
 
     assert len(Ts) == len(beta_domain), f"Ts and beta_domain expected to have same length but obtained len(Ts)={len(Ts)} and len(beta_domain)={len(beta_domain)}."
 
-    for i, (t, beta) in tqdm(enumerate(zip(Ts, beta_domain), total=len(Ts))):
+    for i, (t, beta) in enumerate(zip(Ts, beta_domain)):
         print(f"Training Timestep {times-i}...")
 
         loss_history = []
 
-        for j, (x, _) in enumerate(training_dataset):
+        for j, (x, _) in tqdm(enumerate(training_dataset), total=len(training_dataset)):
             if j == 0:
                 prev_imgs = x.to(device)
                 continue

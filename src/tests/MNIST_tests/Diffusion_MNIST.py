@@ -2,7 +2,6 @@ import torch
 import torch.nn as nn
 from torchvision import datasets, transforms
 
-from src.utils.transformations import noice_dataset
 from src.models.Diffusion_models import MNISTDiffusion
 from src.trainers.trainDiffusion import train
 
@@ -34,10 +33,7 @@ def run(batch_size, latent_vector_size, lr):
     trainset = datasets.MNIST('~/.pytorch/MNIST_data/', train=True, download=True, transform=transform)
 
     # Create a DataLoader to iterate over the training set in batches
-    pre_trainloader = torch.utils.data.DataLoader(trainset, batch_size=batch_size, shuffle=True)
-
-    # Noiced Images dataset
-    trainloader = torch.utils.data.DataLoader(noice_dataset(pre_trainloader), batch_size=batch_size, shuffle=True)
+    trainloader = torch.utils.data.DataLoader(trainset, batch_size=batch_size, shuffle=True)
 
     # Call model
     model = MNISTDiffusion(img_size=(28,28))
