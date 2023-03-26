@@ -6,7 +6,7 @@ from src.models.Diffusion_models import MNISTDiffusion
 from src.trainers.trainDiffusion import train
 
 
-def run(batch_size, latent_vector_size, lr):
+def run(batch_size, latent_vector_size, timesteps, lr):
     # Set device
     device = torch.device("cuda:0") if torch.cuda.is_available() else torch.device("cpu")
 
@@ -15,6 +15,7 @@ def run(batch_size, latent_vector_size, lr):
 
     string_model = f"""
     DEVICE = {device}
+    timesteps = {timesteps}
     batch_size = {batch_size}
     learning_rate = {lr}
     latent_vector_size = {latent_vector_size}
@@ -36,7 +37,7 @@ def run(batch_size, latent_vector_size, lr):
     trainloader = torch.utils.data.DataLoader(trainset, batch_size=batch_size, shuffle=True)
 
     # Call model
-    model = MNISTDiffusion(img_size=(28,28))
+    model = MNISTDiffusion(img_size=(28,28), timesteps=timesteps)
 
     # Define your optimizer
     optimizer = torch.optim.SGD(model.parameters(), lr=lr)
