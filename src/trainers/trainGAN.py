@@ -4,6 +4,7 @@ import numpy as np
 from src.utils.viz_tools import preview_gen_vs_real_images
 
 real_images_preview = None
+generated_images_preview = None
 
 
 def train(G, D, device, latent_vector_size, training_dataset, epochs, D_optimizer, G_optimizer, loss_function):
@@ -12,9 +13,7 @@ def train(G, D, device, latent_vector_size, training_dataset, epochs, D_optimize
 
     for epoch in range(epochs):
         global real_images_preview
-
-        print(f"Training current epoch {epoch}...")
-        G = G.train()
+        global generated_images_preview
 
         LOSS_D = 0
         LOSS_G = 0
@@ -45,6 +44,9 @@ def train(G, D, device, latent_vector_size, training_dataset, epochs, D_optimize
             # Generate images
             gen_images = G(z_noice)
 
+            if i == 0:
+                generated_images_preview = gen_images
+
             # Calculate loss
             loss_g = loss_function(D(gen_images), real_labels)
             LOSS_G += loss_g.item()
@@ -52,7 +54,6 @@ def train(G, D, device, latent_vector_size, training_dataset, epochs, D_optimize
             # Backward pass and optimize
             loss_g.backward()
             G_optimizer.step()
-
 
             ########################################
             ### DISCRIMINATOR OPTIMIZATION
@@ -78,18 +79,12 @@ def train(G, D, device, latent_vector_size, training_dataset, epochs, D_optimize
         #---------------------------------------------
 
         if (epoch+1) % (epochs//10) == 0:
-
-            G = G.eval()
-
             percnt = np.round(100*(epoch+1)/epochs, 3)
             print(f"{percnt}% completed!")
 
             n_images = 4
 
-            # Generate latent vector
-            z_noice = torch.rand(n_images, latent_vector_size).to(device)
-
-            generated_images = G(z_noice)
+            generated_images = generated_images_preview[:n_images]
             real_images = real_images_preview[:n_images]
 
             # Preview Images
