@@ -8,15 +8,9 @@ from src.models.classifiers.CNNs import MicroCNN
 from src.trainers.trainGAN import train
 
 
-def run():
+def run(epochs, batch_size, lr):
     # Set device
     device = torch.device("cuda:0") if torch.cuda.is_available() else torch.device("cpu")
-
-    # Set batch size
-    batch_size = 64
-
-    # Set number of epochs
-    epochs = 20
 
     # Set latent vector size
     latent_vector_size = 10
@@ -51,7 +45,7 @@ def run():
     discriminator = MicroCNN(in_channels=1, out_size=1).to(device)
 
     # Define your optimizer
-    G_optimizer = torch.optim.SGD(generator.parameters(), lr=0.01)
-    D_optimizer = torch.optim.SGD(discriminator.parameters(), lr=0.01)
+    G_optimizer = torch.optim.SGD(generator.parameters(), lr=lr)
+    D_optimizer = torch.optim.SGD(discriminator.parameters(), lr=lr)
 
     train(generator, discriminator, device=device, latent_vector_size=latent_vector_size, training_dataset=trainloader, epochs=epochs, D_optimizer=D_optimizer, G_optimizer=G_optimizer, loss_function=criterion)
