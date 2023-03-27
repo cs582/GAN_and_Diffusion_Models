@@ -15,7 +15,7 @@ def train(model, device, training_dataset, optimizer, loss_function, times, beta
     for i, (t, beta) in enumerate(zip(Ts, beta_domain)):
         print(f"Training Timestep {times-i}...")
 
-        t = torch.tensor([t], dtype=torch.float32).to(device)
+        t = torch.tensor([t]).to(device)
 
         loss_history = []
 

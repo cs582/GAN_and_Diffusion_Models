@@ -3,7 +3,6 @@ import torch.nn as nn
 from torchvision import datasets, transforms
 
 from src.models.GAN_models import MNISTGenerator, MNISTDiscriminator
-
 from src.trainers.trainGAN import train
 
 
