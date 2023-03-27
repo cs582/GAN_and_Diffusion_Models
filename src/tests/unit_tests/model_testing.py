@@ -2,7 +2,7 @@ import unittest
 import torch
 import time
 
-from src.models.classifiers.CNNs import MicroCNN, MiniCNN
+from src.models.backbones.CNNs import MicroCNN, MiniCNN
 from src.models.blocks import SimpleCNNBlock, MLP, MultiscaleConvolution, DiffusionBlock, DiffusionDense
 from src.models.GAN_models import MNISTGenerator
 from src.models.Diffusion_models import MNISTDiffusion

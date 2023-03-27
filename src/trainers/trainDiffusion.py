@@ -1,18 +1,17 @@
 import torch
 from tqdm import tqdm
 import numpy as np
-from src.utils.transformations import noice_image
+from src.data_utils.transformations import noise_images
 
 
-def train(model, device, training_dataset, optimizer, loss_function, times, beta_range):
-    beta_zero, beta_end = beta_range
+def train(model, device, training_dataset, optimizer, loss_function, times, beta_zero, beta_end):
 
-    Ts = list(range(0, times))
+    timesteps = list(range(0, times))
     beta_domain = np.linspace(beta_zero, beta_end, times).tolist()
 
-    assert len(Ts) == len(beta_domain), f"Ts and beta_domain expected to have same length but obtained len(Ts)={len(Ts)} and len(beta_domain)={len(beta_domain)}."
+    assert len(timesteps) == len(beta_domain), f"Ts and beta_domain expected to have same length but obtained len(Ts)={len(Ts)} and len(beta_domain)={len(beta_domain)}."
 
-    for i, (t, beta) in enumerate(zip(Ts, beta_domain)):
+    for i, (t, beta) in enumerate(zip(timesteps, beta_domain)):
         print(f"Training Timestep {times-i}...")
 
         t = torch.tensor([t]).to(device)
@@ -24,7 +23,7 @@ def train(model, device, training_dataset, optimizer, loss_function, times, beta
                 prev_imgs = x.to(device)
                 continue
 
-            curr_imgs = noice_image(prev_imgs, mu=(1-beta)**0.5, sigma=beta)
+            curr_imgs = noise_images(prev_imgs, beta)
 
             optimizer.zero_grad()
 
