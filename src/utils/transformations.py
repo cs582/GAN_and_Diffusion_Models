@@ -28,12 +28,12 @@ def image_preprocessing(img):
     return normalize_image(crop_resize_img(img))
 
 
-def noice_image(img, mu, sigma):
+def noice_image(img, beta):
     size = img.shape
-    noice = np.random.normal(mu, sigma, np.prod(size)).reshape(size)
-    noice = torch.from_numpy(noice).to(img.device)
 
-    noiced_image = img * noice
+    noice = np.sqrt(2*beta) * np.random.normal(size=size)
+
+    noiced_image = img + noice
 
     noiced_image[noiced_image > 1.0] = 1.0
     noiced_image[noiced_image < -1.0] = -1.0
@@ -48,13 +48,10 @@ def markov_chain_noice(img0, starting_beta, final_beta, T=1000):
     betas = np.linspace(starting_beta, final_beta, T).tolist()
 
     for i, beta in zip(range(0, T), betas):
-        mu = (1-beta)**0.5
-        sigma = beta
-
-        curr_img, _ = noice_image(prev_img, mu=mu, sigma=sigma)
+        curr_img = noice_image(prev_img, beta=beta)
 
         if (i+1) % (T//10) == 0:
-            print(f"Noicing data {np.round(100*(i+1)/T, 3)}% with mean={np.round(mu,3)} and var={np.round(sigma,3)}...")
+            print(f"Noicing data {np.round(100*(i+1)/T, 3)}% with beta = {beta}...")
             images.append(curr_img)
         prev_img = curr_img
 
