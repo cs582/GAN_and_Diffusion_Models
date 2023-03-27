@@ -1,6 +1,5 @@
 import numpy as np
 import cv2
-import torch
 
 
 def normalize_image(img):
@@ -41,13 +40,13 @@ def noice_image(img, beta):
     return noiced_image
 
 
-def markov_chain_noice(img0, starting_beta, final_beta, T=1000):
+def markov_chain_noice(img0, starting_beta, final_beta, timesteps):
     images = []
     prev_img = img0
 
-    betas = np.linspace(starting_beta, final_beta, T).tolist()
+    betas = np.linspace(starting_beta, final_beta, timesteps).tolist()
 
-    for i, beta in zip(range(0, T), betas):
+    for i, beta in zip(range(0, timesteps), betas):
         curr_img = noice_image(prev_img, beta=beta)
 
         if (i+1) % (T//10) == 0:
