@@ -31,7 +31,7 @@ def image_preprocessing(img):
 def noice_image(img, beta):
     size = img.shape
 
-    noice = np.sqrt(2*beta) * np.random.normal(size=size)
+    noice = np.sqrt(beta) * np.random.normal(size=size)
 
     noiced_image = img + noice
 
