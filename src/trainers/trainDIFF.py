@@ -2,6 +2,7 @@ import torch
 from tqdm import tqdm
 import numpy as np
 from src.data_utils.transformations import noise_images
+from src.visualization.tools import preview_images
 
 
 def train(model, device, training_dataset, optimizer, loss_function, times, beta_zero, beta_end):
@@ -17,8 +18,8 @@ def train(model, device, training_dataset, optimizer, loss_function, times, beta
 
         loss_history = []
 
-        for j, (x, _) in tqdm(enumerate(training_dataset), total=len(training_dataset)):
-            if j == 0:
+        for batch_n, (x, _) in tqdm(enumerate(training_dataset), total=len(training_dataset)):
+            if batch_n == 0:
                 prev_imgs = x.to(device)
                 continue
 
@@ -36,5 +37,8 @@ def train(model, device, training_dataset, optimizer, loss_function, times, beta
             loss_history.append(loss.item())
 
             prev_imgs = curr_imgs
+
+            if batch_n % 400 == 0:
+                preview_images(imgs_reconstructed, 5, 5, "preview/MNIST_DIFF", f"preview_batch_{batch_n}")
 
         print(f"AVG LOSS: {np.round(np.mean(loss_history), 3)}")

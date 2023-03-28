@@ -7,6 +7,10 @@ def normalize_image(img):
     return 2*(np.float32(img)/255) - 1.0
 
 
+def denormalize_image(img):
+    return np.int64(255*((img + 1.0)/2.0))
+
+
 def crop_resize_img(img):
     img_resized = cv2.resize(img, None, fx=0.10, fy=0.10)
 
