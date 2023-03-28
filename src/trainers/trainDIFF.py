@@ -27,6 +27,7 @@ def train(model, device, training_dataset, optimizer, loss_function, times, beta
             print(f"batch number (j) = {j}")
             print(f"curr_imgs type {type(curr_imgs)} and size {curr_imgs.shape}")
             print(f"beta value = {beta}")
+            print("min", curr_imgs.min(), "max", curr_imgs.max())
 
             optimizer.zero_grad()
 
