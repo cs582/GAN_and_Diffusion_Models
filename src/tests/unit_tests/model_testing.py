@@ -243,10 +243,12 @@ class TestDifussionModels(unittest.TestCase):
         # Print to console
         print("Testing diffusion MNIST Backward...")
 
+        device = torch.device("cuda:0") if torch.cuda.is_available() else torch.device("cpu")
+
         # Initialize the model and input tensor
         T = 100
         s = time.time()
-        model = MNISTDiffusion(img_size=(28, 28), timesteps=T)
+        model = MNISTDiffusion(img_size=(28, 28), timesteps=T, device=device).to
         e = time.time()
         print(f"model initialized in {(e-s):.2f} seconds ")
         input_tensor = torch.randn(8, 1, 28, 28)
