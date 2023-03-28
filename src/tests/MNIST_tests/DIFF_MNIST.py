@@ -11,7 +11,7 @@ def run(batch_size, timesteps, lr):
     device = torch.device("cuda:0") if torch.cuda.is_available() else torch.device("cpu")
 
     # Define Loss function
-    criterion = nn.KLDivLoss(size_average=False).to(device)
+    criterion = nn.KLDivLoss(reduction="batchmean").to(device)
 
     # Beta range
     beta_zero = 0.02
@@ -43,6 +43,6 @@ def run(batch_size, timesteps, lr):
     model = MNISTDiffusion(img_size=(28,28), timesteps=timesteps).to(device)
 
     # Define your optimizer
-    optimizer = torch.optim.SGD(model.parameters(), lr=lr)
+    optimizer = torch.optim.Adam(model.parameters(), lr=lr, betas=(0.9, 0.999))
 
     train(model, device=device, training_dataset=trainloader, optimizer=optimizer, loss_function=criterion, times=timesteps, beta_zero=beta_zero, beta_end=beta_last)
