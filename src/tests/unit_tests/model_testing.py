@@ -226,7 +226,7 @@ class TestDifussionModels(unittest.TestCase):
         # Initialize the model and input tensor
         T = 1000
         s = time.time()
-        model = MNISTDiffusion(img_size=(64, 64), timesteps=T).to(device)
+        model = MNISTDiffusion(img_size=(64, 64), timesteps=T, device=device).to(device)
         e = time.time()
         print(f"model initialized in {(e-s):.2f} seconds ")
         input_tensor = torch.randn(8, 1, 64, 64).to(device)
