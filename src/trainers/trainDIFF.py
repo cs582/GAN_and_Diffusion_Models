@@ -37,6 +37,4 @@ def train(model, device, training_dataset, optimizer, loss_function, times, beta
 
             prev_imgs = curr_imgs
 
-            print(f"finished taking step {j}")
-
         print(f"AVG LOSS: {np.round(np.mean(loss_history), 3)}")
