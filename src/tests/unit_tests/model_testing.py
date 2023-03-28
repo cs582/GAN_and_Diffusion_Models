@@ -221,16 +221,19 @@ class TestDifussionModels(unittest.TestCase):
         # Print to console
         print("Testing diffusion MNIST Forward...")
 
+        device = torch.device("cuda:0") if torch.cuda.is_available() else torch.device("cpu")
+
         # Initialize the model and input tensor
         T = 1000
         s = time.time()
-        model = MNISTDiffusion(img_size=(64, 64), timesteps=T)
+        model = MNISTDiffusion(img_size=(64, 64), timesteps=T).to(device)
         e = time.time()
         print(f"model initialized in {(e-s):.2f} seconds ")
-        input_tensor = torch.randn(8, 1, 64, 64)
+        input_tensor = torch.randn(8, 1, 64, 64).to(device)
 
         # Run the forward pass and check the output
-        output = model(input_tensor, torch.tensor([25]))
+        small_t = torch.tensor([25]).to(device)
+        output = model(input_tensor, small_t)
         self.assertEqual(output.shape, (8, 1, 64, 64))
 
         # Testing completed
