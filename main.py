@@ -1,4 +1,5 @@
 from src.tests.MNIST_tests import GAN_MNIST, DIFF_MNIST
+from src.visualization.tools import plot_history
 import argparse
 
 parser = argparse.ArgumentParser(
@@ -22,11 +23,16 @@ if __name__ == "__main__":
 
     if args.model == "GAN":
         if args.dataset == "MNIST":
-            GAN_MNIST.run(epochs=args.epochs, batch_size=args.batch_size, latent_vector_size=args.latent_vs, lr=args.lr)
+            history = GAN_MNIST.run(epochs=args.epochs, batch_size=args.batch_size, latent_vector_size=args.latent_vs, lr=args.lr)
 
     if args.model == "DIFF":
         if args.dataset == "MNIST":
-            DIFF_MNIST.run(batch_size=args.batch_size, timesteps=args.timesteps, lr=args.lr)
+            history = DIFF_MNIST.run(batch_size=args.batch_size, timesteps=args.timesteps, lr=args.lr)
+            plot_history(history, x_label="T", dir_path="preview/MNIST_DIFF", file_name="loss_history")
+
+
+
+
 
 
 
