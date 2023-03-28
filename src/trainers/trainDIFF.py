@@ -7,25 +7,28 @@ from src.visualization.tools import preview_images
 
 def train(model, device, training_dataset, optimizer, loss_function, times, beta_zero, beta_end):
 
-    plot_every_batch = 10
+    plot_every_batch = 250
     plot_every_time = 100
 
     timesteps = torch.from_numpy(np.arange(0, times)).view(-1, 1).to(device, dtype=torch.int64)
     beta_range = torch.from_numpy(np.linspace(beta_zero, beta_end, times)).to(device)
 
-    for batch_n, (x, _) in enumerate(training_dataset):
-        print(f"Training Batch {batch_n}...")
+    #for batch_n, (x, _) in enumerate(training_dataset):
+    for i in range(0, times):
+        t = times - timesteps[i] - 1
+
+        print(f"Training T {t.item()}...")
+        beta = beta_range[i]
+
         loss_history = []
 
-        for i in tqdm(range(0, times), total=times):
-            t = times - timesteps[i]
-            beta = beta_range[i]
+        #for i in tqdm(range(0, times), total=times):
+        for batch_n, (x, _) in tqdm(enumerate(training_dataset), total=len(training_dataset)):
 
-            if i == 0:
-                prev_imgs = x.to(device)
-                if batch_n % plot_every_batch == 0:
-                    preview_images(prev_imgs, 5, 5, "preview/MNIST_DIFF", f"batch_{batch_n}_T_{t.item()}")
-                continue
+            prev_imgs = x.to(device)
+
+            if i == 0 and batch_n % plot_every_batch == 0:
+                preview_images(prev_imgs, 5, 5, "preview/MNIST_DIFF", f"batch_{batch_n}_T_{t.item()+1}")
 
             curr_imgs = noise_images(prev_imgs, beta)
 
