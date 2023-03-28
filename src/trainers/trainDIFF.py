@@ -6,15 +6,14 @@ from src.data_utils.transformations import noise_images
 
 def train(model, device, training_dataset, optimizer, loss_function, times, beta_zero, beta_end):
 
-    timesteps = list(range(0, times))
-    beta_domain = np.linspace(beta_zero, beta_end, times).tolist()
+    timesteps = torch.from_numpy(np.arange(0, times)).to(device)
+    beta_range = torch.from_numpy(np.linspace(beta_zero, beta_end, times)).to(device)
 
-    assert len(timesteps) == len(beta_domain), f"Ts and beta_domain expected to have same length but obtained len(Ts)={len(Ts)} and len(beta_domain)={len(beta_domain)}."
-
-    for i, (t, beta) in enumerate(zip(timesteps, beta_domain)):
+    for i in range(0, times):
         print(f"Training Timestep {times-i}...")
 
-        t = torch.tensor([t]).to(device)
+        t = times - timesteps[i]
+        beta = beta_range[i]
 
         loss_history = []
 
