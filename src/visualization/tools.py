@@ -18,7 +18,7 @@ def preview_images(images, rows, columns, dir_path, file_name, is_color_image=Fa
             curr_img = images[i*j].detach()
 
             # If tensor in gpu move to cpu
-            if images.device.type == "cuda:0":
+            if images.device.type == "cuda:0" or images.device.type == "cuda":
                 curr_img = curr_img.cpu()
 
             # Change tensor to numpy array
