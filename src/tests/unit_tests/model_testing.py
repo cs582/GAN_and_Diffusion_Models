@@ -5,7 +5,7 @@ import time
 from src.models.backbones.CNNs import MicroCNN, MiniCNN
 from src.models.blocks import SimpleCNNBlock, MLP, MultiscaleConvolution, DiffusionBlock, DiffusionDense
 from src.models.GAN_models import MNISTGenerator
-from src.models.Diffusion_models import MNISTDiffusion
+from src.models.DIFF_models import MNISTDiffusion
 
 
 class TestBuildingBlocks(unittest.TestCase):

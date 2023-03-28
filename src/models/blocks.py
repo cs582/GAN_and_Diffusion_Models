@@ -48,7 +48,9 @@ class DiffusionDense(nn.Module):
         self.tanh = nn.Tanh()
 
     def forward(self, x):
-        x = x.view(-1, 1, self.in_size)
+        print("in shape", x.shape)
+        x = x.view(-1, self.in_size)
+        print("resized shape", x.shape)
         x = self.tanh(self.fc1(x))
         x = self.tanh(self.fc2(x))
         return x.view(-1, self.in_channels, *self.img_size)

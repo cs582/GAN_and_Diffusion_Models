@@ -2,7 +2,7 @@ import torch
 import torch.nn as nn
 from torchvision import datasets, transforms
 
-from src.models.Diffusion_models import MNISTDiffusion
+from src.models.DIFF_models import MNISTDiffusion
 from src.trainers.trainDIFF import train
 
 
