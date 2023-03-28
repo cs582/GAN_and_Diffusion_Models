@@ -3,7 +3,7 @@ import torch.nn as nn
 from torchvision import datasets, transforms
 
 from src.models.Diffusion_models import MNISTDiffusion
-from src.trainers.trainDiffusion import train
+from src.trainers.trainDIFF import train
 
 
 def run(batch_size, latent_vector_size, timesteps, lr):
@@ -14,7 +14,8 @@ def run(batch_size, latent_vector_size, timesteps, lr):
     criterion = nn.KLDivLoss().to(device)
 
     # Beta range
-    beta_range = (0.02, 0.0001)
+    beta_zero = 0.02
+    beta_last = 0.0001
 
     string_model = f"""
     DEVICE = {device}
@@ -45,4 +46,4 @@ def run(batch_size, latent_vector_size, timesteps, lr):
     # Define your optimizer
     optimizer = torch.optim.SGD(model.parameters(), lr=lr)
 
-    train(model, device=device, training_dataset=trainloader, optimizer=optimizer, loss_function=criterion, times=timesteps, beta_range=beta_range)
+    train(model, device=device, training_dataset=trainloader, optimizer=optimizer, loss_function=criterion, times=timesteps, beta_zero=beta_zero, beta_end=beta_last)
