@@ -25,4 +25,7 @@ def image_preprocessing(img):
 
 
 def noise_images(img, beta):
-    return img + torch.sqrt(beta) * torch.randn(size=img.shape).to(img.device)
+    out = img + torch.sqrt(beta) * torch.randn(size=img.shape).to(img.device)
+    out[out > 1.0] = 1.0
+    out[out < -1.0] = -1.0
+    return out

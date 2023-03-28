@@ -19,7 +19,7 @@ def train(model, device, training_dataset, optimizer, loss_function, times, beta
 
         for j, (x, _) in tqdm(enumerate(training_dataset), total=len(training_dataset)):
             if j == 0:
-                prev_imgs = x.to(device)
+                prev_imgs = 2*x.to(device) - 1.0
                 continue
 
             curr_imgs = noise_images(prev_imgs, torch.tensor(beta))
