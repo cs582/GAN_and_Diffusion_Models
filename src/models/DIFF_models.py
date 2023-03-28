@@ -21,7 +21,9 @@ class MNISTDiffusion(nn.Module):
             flattened_out_size=self.flattened_image_size
         )
 
-        self.h_block = DiffusionBlock(img_size=img_size, in_channels=1, kernel=1)
+        self.block1 = DiffusionBlock(img_size=img_size, in_channels=1, kernel=1)
+        self.block2 = DiffusionBlock(img_size=img_size, in_channels=1, kernel=1)
+        self.block3 = DiffusionBlock(img_size=img_size, in_channels=1, kernel=1)
 
         self.block_mean = DiffusionBlock(img_size=img_size, in_channels=1, kernel=1)
         self.block_cov = DiffusionBlock(img_size=img_size, in_channels=1, kernel=1)
@@ -41,7 +43,9 @@ class MNISTDiffusion(nn.Module):
         # Reshape image
         x = x.view(-1, 1, *self.image_size)
 
-        x = self.h_block(x)
+        x = self.block1(x)
+        x = self.block2(x)
+        x = self.block3(x)
 
         mean = self.block_mean(x)
         logcov = self.block_cov(x)
