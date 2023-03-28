@@ -6,13 +6,13 @@ parser = argparse.ArgumentParser(
     description='Training GAN or Diffusion models replicating the original papers'
 )
 
-parser.add_argument('-ep', '--epochs', type=int, default=10, help="Number of epochs.")
-parser.add_argument('-t', '--timesteps', type=int, default=10, help="Number of timesteps.")
-parser.add_argument('-bach', '--batch_size', type=int, default=64, help="Batch size.")
-parser.add_argument('-lr', '--learning_rate', type=float, default=1e-4, help="Learning Rate.")
-parser.add_argument('-lvs', '--latent_vector_size', type=int, default=100, help="Latent vector size.")
-parser.add_argument('-model', '--model', type=str, default="DIFF", help="Choose model to train.")
-parser.add_argument('-data', '--dataset', type=str, default="MNIST", help="Choose dataset.")
+parser.add_argument('-epoch', type=int, default=10, help="Number of epochs.")
+parser.add_argument('-timesteps', type=int, default=10, help="Number of timesteps.")
+parser.add_argument('-bach_size', type=int, default=64, help="Batch size.")
+parser.add_argument('-lr', type=float, default=1e-4, help="Learning Rate.")
+parser.add_argument('-latent_vs', type=int, default=100, help="Latent vector size.")
+parser.add_argument('-model', type=str, default="DIFF", help="Choose model to train.")
+parser.add_argument('-dataset', type=str, default="MNIST", help="Choose dataset.")
 
 
 args = parser.parse_args()
