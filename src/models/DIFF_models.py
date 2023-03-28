@@ -23,6 +23,7 @@ class MNISTDiffusion(nn.Module):
 
         print(f"x shape {x.shape} token shape {time_token.shape}")
         x = x * time_token
+        print(f"shape after mult {x.shape}")
 
         x = self.dense(x)
 
