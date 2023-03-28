@@ -51,8 +51,10 @@ class DiffusionDense(nn.Module):
         print("in shape", x.shape)
         x = x.view(-1, self.in_size)
         print("resized shape", x.shape)
-        x = self.tanh(self.fc1(x))
-        x = self.tanh(self.fc2(x))
+        x = self.fc1(x)
+        x = self.tanh(x)
+        x = self.fc2(x)
+        x = self.tanh(x)
         return x.view(-1, self.in_channels, *self.img_size)
 
 
