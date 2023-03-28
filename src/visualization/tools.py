@@ -43,3 +43,16 @@ def preview_images(images, rows, columns, dir_path, file_name, is_color_image=Fa
     plt.subplots_adjust(wspace=0)
 
     plt.savefig(f"{dir_path}/{file_name}.png")
+
+
+def plot_history(train_history, x_label, dir_path, file_name):
+    plt.title("Train History")
+
+    plt.plot(train_history['loss'])
+    plt.ylabel("loss")
+    plt.xlabel(x_label)
+
+    if not os.path.exists(dir_path):
+        os.makedirs(dir_path)
+
+    plt.savefig(f"{dir_path}/{file_name}.png")
