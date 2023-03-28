@@ -6,7 +6,7 @@ from src.models.Diffusion_models import MNISTDiffusion
 from src.trainers.trainDIFF import train
 
 
-def run(batch_size, latent_vector_size, timesteps, lr):
+def run(batch_size, timesteps, lr):
     # Set device
     device = torch.device("cuda:0") if torch.cuda.is_available() else torch.device("cpu")
 
@@ -22,7 +22,6 @@ def run(batch_size, latent_vector_size, timesteps, lr):
     timesteps = {timesteps}
     batch_size = {batch_size}
     learning_rate = {lr}
-    latent_vector_size = {latent_vector_size}
     loss = {criterion}
     """
 

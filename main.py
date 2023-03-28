@@ -26,7 +26,7 @@ if __name__ == "__main__":
 
     if args.model == "DIFF":
         if args.dataset == "MNIST":
-            DIFF_MNIST.run(batch_size=args.bach_size, timesteps=args.timesteps, latent_vector_size=args.latent_vs, lr=args.lr)
+            DIFF_MNIST.run(batch_size=args.bach_size, timesteps=args.timesteps, lr=args.lr)
 
 
 
