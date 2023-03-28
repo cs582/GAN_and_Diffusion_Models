@@ -224,17 +224,17 @@ class TestDifussionModels(unittest.TestCase):
         device = torch.device("cuda:0") if torch.cuda.is_available() else torch.device("cpu")
 
         # Initialize the model and input tensor
-        T = 100
+        T = 1000
         s = time.time()
-        model = MNISTDiffusion(img_size=(64, 64), timesteps=T, device=device).to(device)
+        model = MNISTDiffusion(img_size=(28, 28), timesteps=T).to(device)
         e = time.time()
         print(f"model initialized in {(e-s):.2f} seconds ")
-        input_tensor = torch.randn(8, 1, 64, 64).to(device)
+        input_tensor = torch.randn(64, 1, 28, 28).to(device)
 
         # Run the forward pass and check the output
-        small_t = torch.tensor([25]).to(device)
+        small_t = torch.tensor([0]).to(device)
         output = model(input_tensor, small_t)
-        self.assertEqual(output.shape, (8, 1, 64, 64))
+        self.assertEqual(output.shape, (64, 1, 28, 28))
 
         # Testing completed
         print("Testing diffusion MNIST Forward COMPLETED!!!")
@@ -248,7 +248,7 @@ class TestDifussionModels(unittest.TestCase):
         # Initialize the model and input tensor
         T = 100
         s = time.time()
-        model = MNISTDiffusion(img_size=(28, 28), timesteps=T, device=device).to(device)
+        model = MNISTDiffusion(img_size=(28, 28), timesteps=T).to(device)
         e = time.time()
         print(f"model initialized in {(e-s):.2f} seconds ")
         input_tensor = torch.randn(8, 1, 28, 28).to(device)
@@ -290,14 +290,18 @@ class TestDifussionModels(unittest.TestCase):
 
         # Initialize the model and input tensor
         s = time.time()
-        model = DiffusionDense(img_size=(28, 28), in_channels=1)
+
+        flattened_img_size = 28 * 28 * 5
+        flattened_out_size = 28 * 28
+
+        model = DiffusionDense(flattened_img_size, flattened_out_size, in_channels=1)
         e = time.time()
         print(f"model initialized in {(e-s):.2f} seconds ")
-        input_tensor = torch.randn(4, 1, 28, 28)
+        input_tensor = torch.randn(4, 1, 28, 28, 5).view(4, 28*28*5)
 
         # Run the forward pass and check the output
         output = model(input_tensor)
-        self.assertEqual(output.shape, (4, 1, 28, 28)) # output should have shape (batch_size, num_classes)
+        self.assertEqual(output.shape, (4, flattened_out_size)) # output should have shape (batch_size, num_classes)
 
         # Testing completed
         print("Testing Diffusion Dense Forward COMPLETED!!!")
