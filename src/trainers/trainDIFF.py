@@ -8,7 +8,7 @@ from src.visualization.tools import preview_images
 def train(model, device, training_dataset, optimizer, loss_function, times, beta_zero, beta_end):
 
     plot_every_batch = 250
-    plot_every_time = 100
+    plot_every_time = 10
 
     timesteps = torch.from_numpy(np.arange(0, times)).view(-1, 1).to(device, dtype=torch.int64)
     beta_range = torch.from_numpy(np.linspace(beta_zero, beta_end, times)).to(device)
