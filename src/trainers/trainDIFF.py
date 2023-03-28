@@ -36,9 +36,10 @@ def train(model, device, training_dataset, optimizer, loss_function, times, beta
 
             loss_history.append(loss.item())
 
-            prev_imgs = curr_imgs
+            if batch_n % 800 == 0:
+                preview_images(prev_imgs, 5, 5, "preview/MNIST_DIFF", f"ORIGINAL_T_{times-i}_and_batch_{batch_n}")
+                preview_images(imgs_reconstructed, 5, 5, "preview/MNIST_DIFF", f"RECONSTRUCT_T_{times-i}_and_batch_{batch_n}")
 
-            if batch_n % 400 == 0:
-                preview_images(imgs_reconstructed, 5, 5, "preview/MNIST_DIFF", f"T_{times-i}_and_batch_{batch_n}")
+            prev_imgs = curr_imgs
 
         print(f"AVG LOSS: {np.round(np.mean(loss_history), 3)}")
