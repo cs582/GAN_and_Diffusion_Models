@@ -45,4 +45,4 @@ def run(batch_size, timesteps, lr):
     # Define your optimizer
     optimizer = torch.optim.Adam(model.parameters(), lr=lr, betas=(0.9, 0.999))
 
-    train(model, device=device, training_dataset=trainloader, optimizer=optimizer, loss_function=criterion, times=timesteps, beta_zero=beta_zero, beta_end=beta_last)
+    return train(model, device=device, training_dataset=trainloader, optimizer=optimizer, loss_function=criterion, times=timesteps, beta_zero=beta_zero, beta_end=beta_last)

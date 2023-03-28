@@ -8,8 +8,10 @@ from src.visualization.tools import preview_images
 
 def train(model, device, training_dataset, optimizer, loss_function, times, beta_zero, beta_end):
 
-    plot_every_batch = 250
-    plot_every_time = 10
+    train_history = {"loss": []}
+
+    plot_every_batch = 800
+    plot_every_time = 50
 
     timesteps = torch.from_numpy(np.arange(0, times)).view(-1, 1).to(device, dtype=torch.int64)
     beta_range = torch.from_numpy(np.linspace(beta_zero, beta_end, times)).to(device)
@@ -61,4 +63,9 @@ def train(model, device, training_dataset, optimizer, loss_function, times, beta
 
             prev_images_memory[batch_n] = curr_imgs
 
-        print(f"AVG LOSS: {np.round(np.mean(loss_history), 3)}")
+        avg_loss = np.mean(loss_history)
+        print(f"AVG LOSS: {np.round(avg_loss,3)}")
+
+        train_history['loss'].append(avg_loss)
+
+    return train_history
