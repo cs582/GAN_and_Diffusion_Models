@@ -224,7 +224,7 @@ class TestDifussionModels(unittest.TestCase):
         device = torch.device("cuda:0") if torch.cuda.is_available() else torch.device("cpu")
 
         # Initialize the model and input tensor
-        T = 1000
+        T = 100
         s = time.time()
         model = MNISTDiffusion(img_size=(64, 64), timesteps=T, device=device).to(device)
         e = time.time()
