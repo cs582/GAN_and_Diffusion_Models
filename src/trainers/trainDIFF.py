@@ -40,8 +40,8 @@ def train(model, device, training_dataset, optimizer, loss_function, times, beta
             imgs_reconstructed = model(curr_imgs, t)
 
             # Transform images to represent their distributions
-            q = F.log_softmax(imgs_reconstructed.view(1, -1))
-            p = F.softmax(prev_imgs.view(1, -1))
+            q = F.log_softmax(imgs_reconstructed.view(len(prev_imgs), -1))
+            p = F.softmax(prev_imgs.view(len(prev_imgs), -1))
 
             # Computing KLDivergence
             loss = loss_function(q, p)
