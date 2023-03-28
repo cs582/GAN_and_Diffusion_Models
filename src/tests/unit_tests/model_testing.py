@@ -236,6 +236,31 @@ class TestDifussionModels(unittest.TestCase):
         # Testing completed
         print("Testing diffusion MNIST Forward COMPLETED!!!")
 
+    def test_diffusion_MNIST_backward(self):
+        # Print to console
+        print("Testing diffusion MNIST Backward...")
+
+        # Initialize the model and input tensor
+        T = 100
+        s = time.time()
+        model = MNISTDiffusion(img_size=(28, 28), timesteps=T)
+        e = time.time()
+        print(f"model initialized in {(e-s):.2f} seconds ")
+        input_tensor = torch.randn(8, 1, 28, 28)
+        output_tensor = torch.randn(8, 1, 28, 28)
+
+        # Compute the loss and gradients
+        criterion = torch.nn.KLDivLoss()
+        loss = criterion(output_tensor, model(input_tensor, torch.tensor([25])))
+        loss.backward()
+
+        # Check that the gradients are not None
+        for param in model.parameters():
+            self.assertIsNotNone(param.grad)
+
+        # Testing completed
+        print("Testing diffusion MNIST Backward COMPLETED!!!")
+
     def test_multiscale_forward(self):
         # Print to console
         print("Testing Multiscale Convolution Forward...")
