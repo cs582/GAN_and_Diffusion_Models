@@ -35,25 +35,24 @@ class MultiscaleConvolution(nn.Module):
 
 
 class DiffusionDense(nn.Module):
-    def __init__(self, img_size, in_channels):
+    def __init__(self, flattened_img_size, flattened_out_size, in_channels):
         super(DiffusionDense, self).__init__()
 
-        self.in_size = np.prod(img_size) * in_channels
-        self.img_size = img_size
+        self.flattened_img_size = flattened_img_size
+        self.flattened_out_size = flattened_out_size
         self.in_channels = in_channels
 
-        self.fc1 = nn.Linear(in_features=self.in_size, out_features=self.in_size)
-        self.fc2 = nn.Linear(in_features=self.in_size, out_features=self.in_size)
+        self.fc1 = nn.Linear(in_features=self.flattened_img_size, out_features=512)
+        self.fc2 = nn.Linear(in_features=512, out_features=self.flattened_out_size)
 
         self.tanh = nn.Tanh()
 
     def forward(self, x):
-        x = x.view(len(x), self.in_size)
         x = self.fc1(x)
         x = self.tanh(x)
         x = self.fc2(x)
         x = self.tanh(x)
-        return x.view(-1, self.in_channels, *self.img_size)
+        return x
 
 
 class DiffusionBlock(nn.Module):
