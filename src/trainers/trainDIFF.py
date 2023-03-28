@@ -7,6 +7,9 @@ from src.visualization.tools import preview_images
 
 def train(model, device, training_dataset, optimizer, loss_function, times, beta_zero, beta_end):
 
+    plot_every_batch = 25
+    plot_every_time = 100
+
     timesteps = torch.from_numpy(np.arange(0, times)).view(-1, 1).to(device, dtype=torch.int64)
     beta_range = torch.from_numpy(np.linspace(beta_zero, beta_end, times)).to(device)
 
@@ -20,7 +23,7 @@ def train(model, device, training_dataset, optimizer, loss_function, times, beta
 
             if i == 0:
                 prev_imgs = x.to(device)
-                if batch_n % 100 == 0:
+                if batch_n % plot_every_batch == 0:
                     preview_images(prev_imgs, 5, 5, "preview/MNIST_DIFF", f"batch_{batch_n}_T_{t.item()}")
                 continue
 
@@ -37,7 +40,7 @@ def train(model, device, training_dataset, optimizer, loss_function, times, beta
 
             loss_history.append(loss.item())
 
-            if t % 200 == 0 and batch_n % 100 == 0:
+            if t % plot_every_time == 0 and batch_n % plot_every_batch == 0:
                 preview_images(imgs_reconstructed, 5, 5, "preview/MNIST_DIFF", f"batch_{batch_n}_T_{t.item()}")
                 prev_imgs = curr_imgs
 
