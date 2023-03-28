@@ -10,17 +10,18 @@ def train(model, device, training_dataset, optimizer, loss_function, times, beta
     timesteps = torch.from_numpy(np.arange(0, times)).view(-1, 1).to(device, dtype=torch.int64)
     beta_range = torch.from_numpy(np.linspace(beta_zero, beta_end, times)).to(device)
 
-    for i in range(0, times):
-        print(f"Training Timestep {times-i}...")
-
-        t = times - timesteps[i] - 1
-        beta = beta_range[i]
-
+    for batch_n, (x, _) in enumerate(training_dataset):
+        print(f"Training Batch {batch_n}...")
         loss_history = []
 
-        for batch_n, (x, _) in tqdm(enumerate(training_dataset), total=len(training_dataset)):
-            if batch_n == 0:
+        for i in tqdm(range(0, times), total=times):
+            t = times - timesteps[i]
+            beta = beta_range[i]
+
+            if i == 0:
                 prev_imgs = x.to(device)
+                if batch_n % 100 == 0:
+                    preview_images(prev_imgs, 5, 5, "preview/MNIST_DIFF", f"batch_{batch_n}_T_{t.item()}")
                 continue
 
             curr_imgs = noise_images(prev_imgs, beta)
@@ -36,10 +37,8 @@ def train(model, device, training_dataset, optimizer, loss_function, times, beta
 
             loss_history.append(loss.item())
 
-            if batch_n % 800 == 0:
-                preview_images(prev_imgs, 5, 5, "preview/MNIST_DIFF", f"ORIGINAL_T_{times-i}_and_batch_{batch_n}")
-                preview_images(imgs_reconstructed, 5, 5, "preview/MNIST_DIFF", f"RECONSTRUCT_T_{times-i}_and_batch_{batch_n}")
-
-            prev_imgs = curr_imgs
+            if t % 200 == 0 and batch_n % 100 == 0:
+                preview_images(imgs_reconstructed, 5, 5, "preview/MNIST_DIFF", f"batch_{batch_n}_T_{t.item()}")
+                prev_imgs = curr_imgs
 
         print(f"AVG LOSS: {np.round(np.mean(loss_history), 3)}")
