@@ -49,7 +49,7 @@ class DiffusionDense(nn.Module):
 
     def forward(self, x):
         print("in shape", x.shape)
-        x = x.view(-1, 1, 1, self.in_size)
+        x = x.view(len(x), self.in_size)
         print("resized shape", x.shape)
         x = self.fc1(x)
         x = self.tanh(x)

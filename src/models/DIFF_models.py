@@ -21,6 +21,8 @@ class MNISTDiffusion(nn.Module):
         time_token = self.embedding(t).expand(x.shape[0], -1)
         time_token = time_token.view(x.shape[0], *x[0].shape)
 
+        print(f"x shape {x.shape} token shape {time_token.shape}")
+
         x = self.dense(x * time_token)
 
         x = self.block1(x)
