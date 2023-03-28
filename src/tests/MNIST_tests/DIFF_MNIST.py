@@ -11,7 +11,7 @@ def run(batch_size, timesteps, lr):
     device = torch.device("cuda:0") if torch.cuda.is_available() else torch.device("cpu")
 
     # Define Loss function
-    criterion = nn.KLDivLoss().to(device)
+    criterion = nn.KLDivLoss(size_average=False).to(device)
 
     # Beta range
     beta_zero = 0.02

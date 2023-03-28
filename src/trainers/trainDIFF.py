@@ -1,4 +1,5 @@
 import torch
+import torch.nn.functional as F
 from tqdm import tqdm
 import numpy as np
 from src.data_utils.transformations import noise_images
@@ -38,7 +39,12 @@ def train(model, device, training_dataset, optimizer, loss_function, times, beta
             # Reconstruct current image to recover previous image
             imgs_reconstructed = model(curr_imgs, t)
 
-            loss = loss_function(imgs_reconstructed, prev_imgs)
+            # Transform images to represent their distributions
+            q = F.log_softmax(imgs_reconstructed.view(1, -1))
+            p = F.softmax(prev_imgs.view(1, -1))
+
+            # Computing KLDivergence
+            loss = loss_function(q, p)
 
             loss.backward()
             optimizer.step()
