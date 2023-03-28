@@ -248,15 +248,15 @@ class TestDifussionModels(unittest.TestCase):
         # Initialize the model and input tensor
         T = 100
         s = time.time()
-        model = MNISTDiffusion(img_size=(28, 28), timesteps=T, device=device).to
+        model = MNISTDiffusion(img_size=(28, 28), timesteps=T, device=device).to(device)
         e = time.time()
         print(f"model initialized in {(e-s):.2f} seconds ")
-        input_tensor = torch.randn(8, 1, 28, 28)
-        output_tensor = torch.randn(8, 1, 28, 28)
+        input_tensor = torch.randn(8, 1, 28, 28).to(device)
+        output_tensor = torch.randn(8, 1, 28, 28).to(device)
 
         # Compute the loss and gradients
         criterion = torch.nn.KLDivLoss()
-        loss = criterion(output_tensor, model(input_tensor, torch.tensor([25])))
+        loss = criterion(output_tensor, model(input_tensor, torch.tensor([25]).to(device)))
         loss.backward()
 
         # Check that the gradients are not None
