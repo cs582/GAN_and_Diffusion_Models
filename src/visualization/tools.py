@@ -11,11 +11,13 @@ def preview_images(images, rows, columns, dir_path, file_name, is_color_image=Fa
 
     fig, ax = plt.subplots(nrows=rows, ncols=columns, figsize=(h*columns, w*columns))
 
+    counter = 0
+
     for i in range(0, rows):
         for j in range(0, columns):
 
             # Detach image from graph
-            curr_img = images[i*j].detach()
+            curr_img = images[counter].detach()
 
             # If tensor in gpu move to cpu
             if images.device.type == "cuda:0" or images.device.type == "cuda":
@@ -32,6 +34,8 @@ def preview_images(images, rows, columns, dir_path, file_name, is_color_image=Fa
 
             ax[i, j].imshow(curr_img, vmin=vmin, vmax=vmax, cmap="gray")
             ax[i, i].axis('off')
+
+            counter += 1
 
     if not os.path.exists(dir_path):
         os.makedirs(dir_path)
