@@ -22,7 +22,7 @@ def train(model, device, training_dataset, optimizer, loss_function, times, beta
                 prev_imgs = 2*x.to(device) - 1.0
                 continue
 
-            curr_imgs = noise_images(prev_imgs, torch.tensor(beta))
+            curr_imgs = noise_images(prev_imgs, beta)
 
             print(f"batch number (j) = {j}")
             print(f"curr_imgs type {type(curr_imgs)} and size {curr_imgs.shape}")
