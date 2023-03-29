@@ -42,6 +42,7 @@ def preview_images(images, rows, columns, dir_path, file_name, is_color_image=Fa
     plt.subplots_adjust(wspace=0)
 
     plt.savefig(f"{dir_path}/{file_name}.png")
+    plt.show()
 
 
 def plot_history(train_history, x_label, dir_path, file_name):
@@ -55,3 +56,4 @@ def plot_history(train_history, x_label, dir_path, file_name):
         os.makedirs(dir_path)
 
     plt.savefig(f"{dir_path}/{file_name}.png")
+    plt.show()
