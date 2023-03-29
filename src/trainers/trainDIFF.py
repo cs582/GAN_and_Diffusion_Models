@@ -2,8 +2,9 @@ import torch
 import torch.nn.functional as F
 from tqdm import tqdm
 import numpy as np
-from src.data_utils.transformations import noise_images
-from src.visualization.tools import preview_images
+from src.utils.image_transformations import noise_images
+from src.utils.visualization_tools import preview_images
+from src.utils.saving_tools import save_model
 
 
 def train(model, device, training_dataset, optimizer, loss_function, times, beta_zero, beta_end):
@@ -67,5 +68,7 @@ def train(model, device, training_dataset, optimizer, loss_function, times, beta
         print(f"AVG LOSS: {np.round(avg_loss,3)}")
 
         train_history['loss'].append(avg_loss)
+
+    save_model(model, name="MNIST", epoch="DONE", saving_path="src/models/trained_models/DIFF")
 
     return train_history

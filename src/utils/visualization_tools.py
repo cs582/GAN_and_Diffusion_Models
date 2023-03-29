@@ -1,7 +1,6 @@
 import os
-import cv2
 import matplotlib.pyplot as plt
-from src.data_utils.transformations import denormalize_image
+from src.utils.image_transformations import denormalize_image
 
 
 def preview_images(images, rows, columns, dir_path, file_name, is_color_image=False):

@@ -1,7 +1,8 @@
 import torch
 from tqdm import tqdm
 import numpy as np
-from src.utils.viz_tools import preview_gen_vs_real_images
+from src.utils.numpy_viz_tools import preview_gen_vs_real_images
+from src.utils.saving_tools import save_model
 
 real_images_preview = None
 generated_images_preview = None
@@ -89,6 +90,10 @@ def train(G, D, device, latent_vector_size, training_dataset, epochs, D_optimize
 
             # Preview Images
             preview_gen_vs_real_images(generated_images, real_images, vmin=0.0, vmax=1.0, name=f"MNIST_GAN_epoch{epoch}", folder="preview/MNIST_GAN")
+
+            # Saving model
+            save_model(G, name="MNIST_G", epoch=epoch, saving_path="src/models/trained_models/GAN")
+            save_model(D, name="MNIST_D", epoch=epoch, saving_path="src/models/trained_models/GAN")
 
             progress.append(generated_images)
 

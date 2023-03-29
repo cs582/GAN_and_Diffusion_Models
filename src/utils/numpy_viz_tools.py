@@ -1,4 +1,4 @@
-from src.utils.transformations import denormalize_image
+from src.utils.numpy_transformations import denormalize_image
 import matplotlib.pyplot as plt
 import os
 

@@ -1,5 +1,5 @@
 from src.tests.MNIST_tests import GAN_MNIST, DIFF_MNIST
-from src.visualization.tools import plot_history
+from src.utils.visualization_tools import plot_history
 import argparse
 
 parser = argparse.ArgumentParser(
