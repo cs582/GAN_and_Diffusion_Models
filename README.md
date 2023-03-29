@@ -1,4 +1,4 @@
-# Product Name
+# Generative Adversarial Networks and Diffusion Models
 > From scratch implementation of GANs and Diffusion deep learning models using PyTorch.
 
 ![Python version][python-image]
